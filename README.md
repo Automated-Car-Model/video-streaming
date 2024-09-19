@@ -19,10 +19,13 @@ The image sequences that make up the video are transmitted by the ESP-EYE via We
 
 ### Libraries
 #### Arduino
-
+* [WiFi](https://www.arduino.cc/reference/en/libraries/wifi/)
+* [WebSocketsServer](https://www.arduino.cc/reference/en/libraries/websockets/)
+  
 #### Flutter
 * [Flutter_joystick](https://pub.dev/packages/flutter_joystick)
 * [quick_blue](https://pub.dev/packages/quick_blue/versions)
 * [web_socket_channel](https://pub.dev/packages/web_socket_channel)
   
 ## Quick start
+[car-meter.ino](./Edge/car-meter/car-meter.ino)
