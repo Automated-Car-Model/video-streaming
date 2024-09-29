@@ -28,4 +28,33 @@ The image sequences that make up the video are transmitted by the ESP-EYE via We
 * [web_socket_channel](https://pub.dev/packages/web_socket_channel)
   
 ## Quick start
-[car-meter.ino](./Edge/car-meter/car-meter.ino)
+1. The first step is to download the file [ESP-EYE_code.ino](./Edge/ESP-EYE_code/ESP-EYE_code.ino), and then modify the two constants, ssid and password, related to the WiFi network to which the ESP-EYE will connect and where a WebSocket will be instantiated on the LAN. This part of the code is found in the section related to the initialization of constants:
+``` 
+#include <WiFi.h>
+#include <WebSocketsServer.h>
+
+#include "camera_pins.h"
+
+const char* ssid = "";
+const char* password = "";
+
+WebSocketsServer webSocket = WebSocketsServer(81);
+
+void startCameraServer();
+```
+
+2. Next, you need to upload the code from the aforementioned file, along with [camera_pins.h](./Edge/ESP-EYE_code/camera_pins.h), to the ESP-EYE board using the Arduino IDE. At this point, a URL should appear on the serial monitor (which contains the internal IP address that the mobile device will need to connect to).
+   
+3.The mobile app code also needs to be adapted, specifically the file [webcam.dart](./client/traxxas_app/lib/webcam.dart), where the URL mentioned in step 2 must be specified: 
+``` 
+final channel = WebSocketChannel.connect(
+    Uri.parse(
+        ''), //insert the URL
+  );
+```
+4. To ensure that the Arduino on board the Traxxas car receives commands via Bluetooth, you need to upload the code from [car-meter.ino](./Edge/car-meter/car-meter.ino).
+
+5. You can now upload the [traxxas_app](./client/traxxas_app) application to the mobile device you want to use to interact with the system. To do this, you can use Flutter within the Visual Studio Code development environment. Both the mobile device and the ESP-EYE must be connected to the same WiFi LAN network so that the mobile device can access the WebSocket instantiated on port 81. It is also possible to use the mobile device's “hotspot” feature, which the ESP-EYE can connect to.
+
+6. Finally, you can use the application: the first interface is dedicated to listing the Bluetooth devices with which a connection can be established. You need to select the Arduino Nano 33 BLE Sense. The second interface manages the actual connection. Lastly, the third screen will present the vehicle controls alongside the video interface.
+
